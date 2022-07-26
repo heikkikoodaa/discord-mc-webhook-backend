@@ -30,4 +30,23 @@ app.post('/message', (req, res) => {
     });
 });
 
+app.post('/paid', (req, res) => {
+  const unpaidPlayers = req.body.join(', ');
+  console.log('Players who have not paid: ', unpaidPlayers);
+
+  axios
+    .post(WEBHOOK_URL, {
+      content: `<@&651412869606277140> Pelaajat jotka eivät ole maksaneet Realmsista tässä kuussa: ${unpaidPlayers}`,
+    })
+    .then((response) => {
+      console.log(response);
+      res
+        .status(200)
+        .json({ status: 200, message: 'Notification sent successfully!' });
+    })
+    .catch((error) => {
+      res.status(400).json({ status: 400, message: error });
+    });
+});
+
 app.listen(port, () => console.log(`Listening on port: ${port}`));
