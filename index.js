@@ -7,6 +7,7 @@ require('dotenv').config();
 
 const port = process.env.PORT || 3000;
 const WEBHOOK_URL = process.env.WEBHOOK_URL;
+const ROLE_ID = process.env.ROLE_ID;
 
 app.use(express.json());
 app.use(cors());
@@ -17,7 +18,7 @@ app.post('/message', (req, res) => {
 
   axios
     .post(WEBHOOK_URL, {
-      content: `<@&651412869606277140> ${message}`,
+      content: `${ROLE_ID} ${message}`,
     })
     .then((response) => {
       console.log(response);
@@ -36,7 +37,7 @@ app.post('/paid', (req, res) => {
 
   axios
     .post(WEBHOOK_URL, {
-      content: `<@&651412869606277140> Pelaajat jotka eivät ole maksaneet Realmsista tässä kuussa: ${unpaidPlayers}`,
+      content: `${ROLE_ID} Pelaajat jotka eivät ole maksaneet Realmsista tässä kuussa: ${unpaidPlayers}`,
     })
     .then((response) => {
       console.log(response);
